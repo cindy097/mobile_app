@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pkl_cyberlabs/data/constants.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_navbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:pkl_cyberlabs/views/widget_tree.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
   int _currentCarouselIndex = 0;
 
   final List<String> carouselImages = [
@@ -52,20 +50,10 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-  void _onNavBarTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
-      bottomNavigationBar: CustomNavBar(
-        currentIndex: _selectedIndex,
-        onTap: _onNavBarTapped,
-      ),
+      backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.padding),
@@ -147,7 +135,14 @@ class _HomePageState extends State<HomePage> {
         ),
         const SizedBox(height: 8),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WidgetTree(initialIndex: 2),
+              ),
+            );
+          },
           child: const Text('Read More', style: AppTextStyles.link),
         ),
       ],

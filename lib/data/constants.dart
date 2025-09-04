@@ -29,9 +29,9 @@ class AppTextStyles {
   );
 
   static const TextStyle body = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    color: AppColors.textSecondary,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle link = TextStyle(
@@ -46,7 +46,7 @@ class AppTextStyles {
 
 
 class AppSizes {
-  static const double padding = 16.0;
+  static const double padding = 24.0;
   static const double borderRadius = 12.0;
   static const double iconSize = 24.0;
   static const double radius = 12.0;

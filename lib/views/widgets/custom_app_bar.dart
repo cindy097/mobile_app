@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors
           .transparent, // biar nggak ada tint aneh dari Material 3
       elevation: 3, // kasih shadow tipis
-      shadowColor: Colors.black.withOpacity(0.25), // atur warna bayangan
+      shadowColor: Colors.black.withOpacity(0.50), // atur warna bayangan
       centerTitle: false, // biar logo di kiri
       title: Image.asset(
         "assets/images/logo.png", // ganti sesuai nama file logo kamu

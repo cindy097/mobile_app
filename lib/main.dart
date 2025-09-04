@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'views/pages/home_page.dart';
+import 'views/widget_tree.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false, // Nonaktifkan Material 3
       ),
-      home: const HomePage(),
+      home: const WidgetTree(), // ✅ masuk sini
     );
   }
 }
