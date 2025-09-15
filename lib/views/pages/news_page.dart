@@ -1,39 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pkl_cyberlabs/data/constants.dart';
+import 'package:pkl_cyberlabs/data/news_data.dart';
+import 'package:pkl_cyberlabs/views/pages/details_news_page.dart';
 
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
-
-  final List<Map<String, String>> newsList = const [
-    {
-      'image': 'assets/images/news1.jpg',
-      'title':
-      'Pelatihan Pembuatan Toko Online dan SEO Bagi Guru SMK Bakti Nusantara 666 Dalam Program SMK PK',
-      'content':
-      'Beberapa waktu lalu Cyberlabs dipercaya oleh SMK Bakti Nusantara 666 Kab Bandung untuk melakukan pelatihan Digital Marketing dalam rangkaian SMK PK.'
-    },
-    {
-      'image': 'assets/images/news2.jpg',
-      'title':
-      'Coaching Clinic ke 5 UKM Incubator Unpad Oorange Bersama Kemenkop dan CyberLabs',
-      'content':
-      'Coaching clinic merupakan serangkaian coaching yang diadakan oleh Kemenkop bersama Oorange dengan menggandeng Cyberlabs.'
-    },
-    {
-      'image': 'assets/images/news3.jpg',
-      'title':
-      'CyberLabs Menerima Siswa PKL Jurusan Bisnis Daring dari SMKN 5 Pasanggaran',
-      'content':
-      'Beberapa hari lalu Cyberlabs menerima 15 siswa PKL Jurusan Bisnis Daring dan Pemasaran dari SMKN 5 Pasanggaran.'
-    },
-    {
-      'image': 'assets/images/news4.jpg',
-      'title':
-      'Guru Tamu Dalam Program SMK PK Antara CyberLabs Dengan SMK Bina Putra Purwakarta',
-      'content':
-      'Dalam program SMK Pusat Keunggulan, Cyberlabs dipercaya oleh SMK Bina Putra Bina Putra untuk hadir sebagai guru tamu.'
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +29,10 @@ class NewsPage extends StatelessWidget {
                     mainAxisSpacing: 12,
                     childAspectRatio: 0.62,
                   ),
-                  itemCount: newsList.length,
+                  itemCount: newsData.length,
                   itemBuilder: (context, index) {
-                    final news = newsList[index];
-                    return _buildNewsCard(
-                      news['image']!,
-                      news['title']!,
-                      news['content']!,
-                    );
+                    final news = newsData[index];
+                    return _buildNewsCard(context, news);
                   },
                 ),
               ),
@@ -76,7 +43,7 @@ class NewsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNewsCard(String imagePath, String title, String content) {
+  Widget _buildNewsCard(BuildContext context, NewsItem news) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radius),
@@ -84,27 +51,24 @@ class NewsPage extends StatelessWidget {
       elevation: 3,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(12.0), // padding dalam
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ Gambar 1:1 dengan rounded semua sisi
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: AspectRatio(
-                aspectRatio: 1, // ✅ kotak 1:1
+                aspectRatio: 1,
                 child: Image.asset(
-                  imagePath,
+                  news.image,
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
               ),
             ),
             const SizedBox(height: 8),
-
-            // ✅ Judul
             Text(
-              title,
+              news.title,
               style: AppTextStyles.body.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
@@ -115,26 +79,43 @@ class NewsPage extends StatelessWidget {
             ),
             const SizedBox(height: 6),
 
-            // ✅ Konten
-            Text(
-              content,
-              style: AppTextStyles.body.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: AppColors.textPrimary,
+            // Konten ringkas
+            Expanded(
+              child: Text(
+                news.content,
+                style: AppTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: AppColors.textPrimary,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
             ),
-            const Spacer(),
 
-            // ✅ "Read More" sebagai LINK
-            Text(
-              "Read More",
-              style: AppTextStyles.link.copyWith(
-                fontSize: 12,
+            const SizedBox(height: 2),
+
+            // Tombol
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailNewsPage(
+                        title: news.title,
+                        image: news.image,
+                        content: news.content,
+                        date: news.date,
+                        author: news.author,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Read More', style: AppTextStyles.link),
               ),
-            ),
+            )
           ],
         ),
       ),

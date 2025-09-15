@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pkl_cyberlabs/data/constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:pkl_cyberlabs/views/widget_tree.dart';
+import 'package:pkl_cyberlabs/data/news_data.dart';
+import 'package:pkl_cyberlabs/views/pages/details_news_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,59 +21,22 @@ class _HomePageState extends State<HomePage> {
     'assets/images/carousel3.jpg',
   ];
 
-  final List<Map<String, String>> newsList = [
-    {
-      'image': 'assets/images/news1.jpg',
-      'title':
-      'Pelatihan Pembuatan Toko Online dan SEO Bagi Guru SMK Bakti Nusantara 666 Dalam Program SMK PK',
-      'content':
-      'Beberapa waktu lalu Cyberlabs di percaya oleh SMK Bakti Nusantara 666 Kab Bandung untuk melakukan pelatihan Digital Marketing dalam rangkaian SMK PK.'
-    },
-    {
-      'image': 'assets/images/news2.jpg',
-      'title':
-      'Coaching Clinic ke 5 UKM Incubator Unpad Oorange Bersama Kemenkop dan CyberLabs',
-      'content':
-      'Coaching clinic merupakan serangkaian coaching yang diadakan oleh kemenkop bersama Oorange dengan menggandeng Cyberlabs.'
-    },
-    {
-      'image': 'assets/images/news3.jpg',
-      'title':
-      'Pelatihan Pembuatan Toko Online dan SEO Bagi Guru SMK Bakti Nusantara 666 Dalam Program SMK PK',
-      'content':
-      'Beberapa waktu lalu Cyberlabs di percaya oleh SMK Bakti Nusantara 666 Kab Bandung untuk melakukan pelatihan Digital Marketing dalam rangkaian SMK PK.'
-    },
-    {
-      'image': 'assets/images/news4.jpg',
-      'title':
-      'Coaching Clinic ke 5 UKM Incubator Unpad Oorange Bersama Kemenkop dan CyberLabs',
-      'content':
-      'Coaching clinic merupakan serangkaian coaching yang diadakan oleh kemenkop bersama Oorange dengan menggandeng Cyberlabs.'
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSizes.padding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildCarousel(),
-              const SizedBox(height: 24),
-              _buildAboutUsSection(),
-              const SizedBox(height: 24),
-              _buildNewsSection(),
-            ],
-          ),
-        ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(AppSizes.padding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCarousel(),
+          const SizedBox(height: 24),
+          _buildAboutUsSection(),
+          const SizedBox(height: 24),
+          _buildNewsSection(),
+        ],
       ),
     );
   }
-
   Widget _buildCarousel() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,6 +114,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
   Widget _buildNewsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,14 +122,10 @@ class _HomePageState extends State<HomePage> {
         Text('News', style: AppTextStyles.heading1),
         const SizedBox(height: 16),
         Column(
-          children: newsList.map((news) {
+          children: newsData.map((news) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: _buildNewsCard(
-                news['image']!,
-                news['title']!,
-                news['content']!,
-              ),
+              child: _buildNewsCard(news),
             );
           }).toList(),
         ),
@@ -171,18 +133,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildNewsCard(String imagePath, String title, String content) {
+  Widget _buildNewsCard(NewsItem news) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.asset(
-            imagePath,
-            width: 130,
-            height: 130,
-            fit: BoxFit.cover,
-          ),
+          child: Image.asset(news.image, width: 130, height: 130, fit: BoxFit.cover),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -190,7 +147,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                news.title,
                 style: AppTextStyles.body.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
@@ -199,25 +156,31 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 4),
               Text(
-                content,
+                news.content,
                 style: AppTextStyles.body,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
               TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: const Size(50, 30),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  alignment: Alignment.centerLeft,
-                ),
-                child: const Text(
-                  'Read More',
-                  style: AppTextStyles.link,
-                ),
-              )
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailNewsPage(
+                        title: news.title,
+                        image: news.image,
+                        content: news.content,
+                        date: news.date,
+                        author: news.author,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Read More', style: AppTextStyles.link),
+              ),
             ],
           ),
-        ),
+        )
       ],
     );
   }

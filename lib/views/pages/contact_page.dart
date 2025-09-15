@@ -4,7 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:pkl_cyberlabs/data/constants.dart';
 
 class ContactPage extends StatelessWidget {
-  ContactPage({Key? key}) : super(key: key);
+  ContactPage({super.key});
 
   final LatLng _officeLocation = LatLng(-6.914744, 107.609810); // Lokasi kantor di Bandung
 

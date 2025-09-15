@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: false, // Nonaktifkan Material 3
+        useMaterial3: false,
       ),
-      home: const WidgetTree(), // ✅ masuk sini
+      home: const WidgetTree(),
     );
   }
 }

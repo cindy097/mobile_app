@@ -22,13 +22,6 @@ class WidgetTree extends StatefulWidget {
 class _WidgetTreeState extends State<WidgetTree> {
   late int _currentIndex;
 
-  final List<Widget> _pages = [
-    HomePage(),
-    NewsPage(),
-    AboutPage(),
-    ContactPage(),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -37,9 +30,16 @@ class _WidgetTreeState extends State<WidgetTree> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      const HomePage(),
+      const NewsPage(),
+      const AboutPage(),
+      ContactPage(),
+    ];
+
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: _pages[_currentIndex],
+      body: pages[_currentIndex],
       bottomNavigationBar: CustomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) {
